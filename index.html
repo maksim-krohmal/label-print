@@ -3,21 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Label Print — друкуйте етикетки самостійно</title>
+  <title>Label Print — друк етикеток без типографії</title>
   <style>
     :root{
-      --bg:#040814;
-      --bg2:#091224;
+      --bg:#07111f;
+      --bg2:#0b1730;
       --panel:rgba(255,255,255,.06);
-      --panel2:rgba(255,255,255,.10);
-      --text:#f5f8fc;
-      --muted:#b6c4d9;
-      --accent:#3b82f6;
+      --panel-strong:rgba(255,255,255,.09);
+      --panel-soft:rgba(255,255,255,.04);
+      --text:#f5f8ff;
+      --muted:#b9c6db;
+      --muted-2:#94a6c0;
+      --accent:#4f8cff;
       --accent2:#7c5cff;
-      --line:rgba(255,255,255,.12);
-      --shadow:0 24px 80px rgba(0,0,0,.42);
-      --radius:30px;
-      --max:1240px;
+      --accent3:#22c55e;
+      --line:rgba(255,255,255,.11);
+      --line-strong:rgba(255,255,255,.16);
+      --shadow:0 22px 70px rgba(0,0,0,.38);
+      --shadow-soft:0 14px 34px rgba(0,0,0,.24);
+      --radius:28px;
+      --radius-lg:34px;
+      --max:1200px;
     }
 
     *{box-sizing:border-box}
@@ -27,14 +33,16 @@
       font-family:Inter, Arial, sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at top left, rgba(59,130,246,.20), transparent 28%),
-        radial-gradient(circle at top right, rgba(124,92,255,.16), transparent 24%),
+        radial-gradient(circle at top left, rgba(79,140,255,.18), transparent 25%),
+        radial-gradient(circle at top right, rgba(124,92,255,.15), transparent 22%),
         linear-gradient(180deg,var(--bg),var(--bg2));
-      line-height:1.5;
+      line-height:1.55;
     }
 
+    body.modal-open{overflow:hidden}
+
     a{text-decoration:none;color:inherit}
-    img{display:block;max-width:100%}
+    img,video{display:block;max-width:100%}
 
     .container{
       width:min(var(--max), calc(100% - 32px));
@@ -46,12 +54,12 @@
       top:0;
       z-index:100;
       backdrop-filter:blur(14px);
-      background:rgba(4,8,20,.72);
+      background:rgba(7,17,31,.72);
       border-bottom:1px solid rgba(255,255,255,.06);
     }
 
     .nav{
-      height:78px;
+      height:76px;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -67,14 +75,14 @@
     }
 
     .brand-mark{
-      width:48px;
-      height:48px;
-      border-radius:15px;
+      width:46px;
+      height:46px;
+      border-radius:14px;
       display:grid;
       place-items:center;
-      font-size:22px;
+      font-size:21px;
       background:linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow:0 12px 32px rgba(59,130,246,.38);
+      box-shadow:0 12px 30px rgba(79,140,255,.34);
     }
 
     .brand small{
@@ -86,7 +94,7 @@
 
     .nav-links{
       display:flex;
-      gap:24px;
+      gap:22px;
       color:var(--muted);
       font-size:15px;
     }
@@ -98,24 +106,25 @@
       align-items:center;
       justify-content:center;
       gap:10px;
-      padding:14px 24px;
+      padding:14px 22px;
       border-radius:999px;
       border:1px solid transparent;
       font-weight:800;
       transition:.2s ease;
       cursor:pointer;
       white-space:nowrap;
+      font-size:15px;
     }
 
     .btn-primary{
       color:#fff;
       background:linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow:0 12px 34px rgba(59,130,246,.36);
+      box-shadow:0 12px 34px rgba(79,140,255,.34);
     }
 
     .btn-primary:hover{
       transform:translateY(-2px);
-      box-shadow:0 16px 42px rgba(59,130,246,.46);
+      box-shadow:0 16px 40px rgba(79,140,255,.42);
     }
 
     .btn-secondary{
@@ -129,6 +138,17 @@
       transform:translateY(-2px);
     }
 
+    .btn-dark{
+      color:#fff;
+      background:rgba(255,255,255,.06);
+      border-color:rgba(255,255,255,.12);
+    }
+
+    .btn-dark:hover{
+      background:rgba(255,255,255,.10);
+      transform:translateY(-2px);
+    }
+
     .tag{
       display:inline-flex;
       align-items:center;
@@ -137,34 +157,34 @@
       border-radius:999px;
       border:1px solid var(--line);
       background:rgba(255,255,255,.05);
-      color:#dce6f7;
-      font-size:14px;
-      font-weight:600;
+      color:#dfebff;
+      font-size:13px;
+      font-weight:700;
     }
 
     .hero{
-      padding:88px 0 54px;
+      padding:86px 0 54px;
     }
 
     .hero-grid{
       display:grid;
-      grid-template-columns:1.06fr .94fr;
-      gap:38px;
+      grid-template-columns:1.05fr .95fr;
+      gap:34px;
       align-items:center;
     }
 
     h1{
-      margin:18px 0;
-      font-size:clamp(42px,5.8vw,86px);
-      line-height:.96;
-      letter-spacing:-.05em;
+      margin:18px 0 18px;
+      font-size:clamp(42px,5.8vw,82px);
+      line-height:.95;
+      letter-spacing:-.055em;
     }
 
-    .accent{color:#c3d9ff}
+    .accent{color:#d7e5ff}
 
     .lead{
       margin:0 0 28px;
-      font-size:21px;
+      font-size:20px;
       color:var(--muted);
       max-width:760px;
     }
@@ -178,54 +198,70 @@
 
     .hero-list{
       display:grid;
-      gap:12px;
-      color:#e5edf8;
-      font-size:17px;
+      gap:10px;
+      color:#e6efff;
+      font-size:16px;
       font-weight:700;
     }
 
     .hero-card,
     .value-box,
     .feature,
-    .shot,
     .compare-box,
-    .cta-box{
+    .cta-box,
+    .video-shell,
+    .steps-wrap,
+    .showcase-card,
+    .b2b-strip{
       border:1px solid var(--line);
       box-shadow:var(--shadow);
     }
 
     .hero-card{
-      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
       border-radius:34px;
-      padding:20px;
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.10), transparent 30%);
+      pointer-events:none;
     }
 
     .hero-card img{
-      border-radius:24px;
+      border-radius:22px;
       border:1px solid rgba(255,255,255,.08);
+      width:100%;
+      position:relative;
+      z-index:1;
     }
 
     section{padding:56px 0}
 
     .section-title{
       margin:0 0 12px;
-      font-size:clamp(32px,4.2vw,58px);
+      font-size:clamp(32px,4.2vw,56px);
       line-height:1.02;
       letter-spacing:-.03em;
     }
 
     .section-lead{
-      margin:0 0 30px;
+      margin:0 0 28px;
       color:var(--muted);
-      max-width:860px;
-      font-size:19px;
+      max-width:820px;
+      font-size:18px;
     }
 
     .value-box{
       background:
-        radial-gradient(circle at top left, rgba(34,197,94,.13), transparent 30%),
-        linear-gradient(135deg, rgba(59,130,246,.16), rgba(124,92,255,.12));
-      border-radius:32px;
+        radial-gradient(circle at top left, rgba(34,197,94,.10), transparent 28%),
+        linear-gradient(135deg, rgba(79,140,255,.15), rgba(124,92,255,.12));
+      border-radius:30px;
       padding:30px;
     }
 
@@ -233,47 +269,67 @@
       display:block;
       margin-bottom:10px;
       font-size:30px;
-      line-height:1.1;
+      line-height:1.08;
+      letter-spacing:-.03em;
     }
 
     .value-box p{
       margin:0;
-      color:#dbe7f8;
+      color:#dce8fb;
       font-size:18px;
+      max-width:960px;
     }
 
     .grid-3,
-    .shots,
-    .compare{
+    .compare,
+    .steps-grid,
+    .showcase-grid{
       display:grid;
       gap:18px;
     }
 
     .grid-3{grid-template-columns:repeat(3,1fr)}
-    .shots{grid-template-columns:repeat(2,1fr)}
     .compare{grid-template-columns:1fr 1fr}
+    .steps-grid{grid-template-columns:repeat(3,1fr)}
+    .showcase-grid{grid-template-columns:repeat(2,1fr)}
 
     .feature{
       background:var(--panel);
-      border-radius:28px;
+      border-radius:26px;
       padding:24px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .feature::after{
+      content:"";
+      position:absolute;
+      right:-28px;
+      bottom:-34px;
+      width:110px;
+      height:110px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(79,140,255,.10), transparent 66%);
+      pointer-events:none;
     }
 
     .icon{
-      width:58px;
-      height:58px;
+      width:56px;
+      height:56px;
       border-radius:18px;
       display:grid;
       place-items:center;
-      font-size:25px;
+      font-size:24px;
       margin-bottom:14px;
-      background:linear-gradient(135deg, rgba(59,130,246,.18), rgba(124,92,255,.22));
+      background:linear-gradient(135deg, rgba(79,140,255,.18), rgba(124,92,255,.22));
       border:1px solid rgba(255,255,255,.10);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
     }
 
     .feature h3{
       margin:0 0 10px;
-      font-size:23px;
+      font-size:22px;
+      line-height:1.2;
     }
 
     .feature p{
@@ -282,30 +338,111 @@
       font-size:16px;
     }
 
-    .shot{
-      background:rgba(255,255,255,.06);
-      border-radius:26px;
-      overflow:hidden;
+    .steps-wrap{
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border-radius:30px;
+      padding:22px;
     }
 
-    .shot-body{padding:16px}
-
-    .shot h3{
-      margin:0 0 6px;
-      font-size:23px;
+    .step{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
     }
 
-    .shot p{
-      margin:0 0 14px;
+    .step-number{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      font-weight:900;
+      margin-bottom:14px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 10px 24px rgba(79,140,255,.28);
+    }
+
+    .step h3{
+      margin:0 0 10px;
+      font-size:22px;
+    }
+
+    .step p{
+      margin:0;
       color:var(--muted);
-      font-size:15px;
+      font-size:16px;
     }
 
-    .shot img{
-      border-radius:18px;
+    .showcase-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border-radius:28px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .showcase-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:16px 18px 0;
+    }
+
+    .showcase-top strong{
+      font-size:18px;
+      line-height:1.2;
+    }
+
+    .showcase-top span{
+      font-size:13px;
+      color:var(--muted-2);
+      display:block;
+      margin-top:4px;
+    }
+
+    .showcase-badge{
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      color:#deebff;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .showcase-image-wrap{
+      padding:16px;
+    }
+
+    .showcase-image{
+      border-radius:22px;
+      overflow:hidden;
       border:1px solid rgba(255,255,255,.08);
+      background:#08111d;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .showcase-image img{
       width:100%;
       height:auto;
+      transition:transform .25s ease;
+    }
+
+    .showcase-card:hover .showcase-image img{
+      transform:scale(1.018);
+    }
+
+    .showcase-body{
+      padding:0 18px 18px;
+    }
+
+    .showcase-body p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
     }
 
     .compare-box{
@@ -315,8 +452,8 @@
 
     .bad{background:rgba(255,255,255,.04)}
     .good{
-      background:linear-gradient(180deg, rgba(59,130,246,.17), rgba(124,92,255,.13));
-      border-color:rgba(59,130,246,.24);
+      background:linear-gradient(180deg, rgba(79,140,255,.17), rgba(124,92,255,.13));
+      border-color:rgba(79,140,255,.24);
     }
 
     .compare-box h3{
@@ -339,27 +476,150 @@
 
     .list b{color:#fff}
 
-    .cta-box{
-      border-radius:36px;
-      padding:36px;
+    .video-shell{
+      border-radius:30px;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      padding:18px;
+    }
+
+    .video-preview{
+      position:relative;
+      overflow:hidden;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:#000;
+      cursor:pointer;
+    }
+
+    .video-preview img{
+      width:100%;
+      aspect-ratio:16/9;
+      object-fit:cover;
+      opacity:.92;
+      transition:.25s ease;
+    }
+
+    .video-preview:hover img{
+      transform:scale(1.02);
+      opacity:1;
+    }
+
+    .play-button{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      pointer-events:none;
+    }
+
+    .play-button span{
+      width:86px;
+      height:86px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-size:28px;
+      color:#fff;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 18px 40px rgba(79,140,255,.35);
+      border:1px solid rgba(255,255,255,.18);
+    }
+
+    .video-caption{
+      padding:16px 6px 2px;
+      color:var(--muted);
+      font-size:16px;
+    }
+
+    .b2b-strip{
+      border-radius:30px;
+      padding:28px;
       background:
-        radial-gradient(circle at top left, rgba(59,130,246,.28), transparent 32%),
-        linear-gradient(135deg, rgba(59,130,246,.17), rgba(124,92,255,.13));
-      border-color:rgba(59,130,246,.22);
+        radial-gradient(circle at top left, rgba(34,197,94,.10), transparent 28%),
+        linear-gradient(135deg, rgba(79,140,255,.14), rgba(124,92,255,.10));
+    }
+
+    .b2b-strip h3{
+      margin:0 0 10px;
+      font-size:28px;
+      line-height:1.08;
+      letter-spacing:-.02em;
+    }
+
+    .b2b-strip p{
+      margin:0 0 18px;
+      color:#dce7fb;
+      font-size:17px;
+      max-width:900px;
+    }
+
+    .b2b-points{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .b2b-points span{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      font-size:14px;
+      font-weight:700;
+      color:#e6efff;
+    }
+
+    .cta-box{
+      border-radius:34px;
+      padding:38px;
+      background:
+        radial-gradient(circle at top left, rgba(79,140,255,.28), transparent 32%),
+        linear-gradient(135deg, rgba(79,140,255,.18), rgba(124,92,255,.12));
+      border-color:rgba(79,140,255,.22);
     }
 
     .cta-box h2{
       margin:0 0 12px;
-      font-size:clamp(38px,4.4vw,64px);
+      font-size:clamp(36px,4.2vw,60px);
       line-height:.98;
       letter-spacing:-.04em;
+      max-width:900px;
     }
 
     .cta-box p{
-      margin:0 0 24px;
-      font-size:19px;
+      margin:0 0 22px;
+      font-size:18px;
       color:#d9e4f4;
-      max-width:860px;
+      max-width:900px;
+    }
+
+    .cta-sub{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin:0 0 24px;
+    }
+
+    .cta-mini{
+      padding:16px;
+      border-radius:20px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    .cta-mini strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:16px;
+    }
+
+    .cta-mini span{
+      color:var(--muted);
+      font-size:14px;
     }
 
     .contact-row{
@@ -395,15 +655,99 @@
       padding-top:18px;
     }
 
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:999;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(4,8,18,.78);
+      backdrop-filter:blur(8px);
+      padding:20px;
+    }
+
+    .modal.active{display:flex}
+
+    .modal-dialog{
+      width:min(1100px, 100%);
+      background:linear-gradient(180deg, rgba(14,21,40,.98), rgba(9,15,29,.98));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:28px;
+      box-shadow:0 30px 90px rgba(0,0,0,.5);
+      overflow:hidden;
+    }
+
+    .modal-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:16px 18px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .modal-top strong{font-size:18px}
+    .modal-top span{
+      display:block;
+      color:var(--muted);
+      font-size:14px;
+      margin-top:2px;
+    }
+
+    .modal-close{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      font-size:20px;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .modal-close:hover{
+      background:rgba(255,255,255,.08);
+      transform:translateY(-1px);
+    }
+
+    .modal-video-wrap{background:#000}
+    .modal-video{
+      width:100%;
+      aspect-ratio:16/9;
+      background:#000;
+    }
+
     @media (max-width:1100px){
       .hero-grid,
       .grid-3,
-      .shots,
-      .compare{
+      .compare,
+      .steps-grid,
+      .showcase-grid,
+      .cta-sub{
         grid-template-columns:1fr;
       }
-
       .nav-links{display:none}
+    }
+
+    @media (max-width:680px){
+      .cta-box,
+      .value-box,
+      .feature,
+      .compare-box,
+      .steps-wrap,
+      .video-shell,
+      .b2b-strip{
+        padding:22px;
+      }
+
+      .hero-card{padding:14px}
+      .modal-top{align-items:flex-start}
+      .showcase-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
     }
   </style>
 </head>
@@ -414,18 +758,22 @@
         <div class="brand-mark">🏷️</div>
         <div>
           Label Print
-          <small>Друкуйте етикетки самостійно</small>
+          <small>Друк етикеток без типографії</small>
         </div>
       </div>
 
       <nav class="nav-links">
-        <a href="#value">Вигода</a>
-        <a href="#real">Інтерфейс</a>
-        <a href="#features">Переваги</a>
-        <a href="#contact">Купити</a>
+        <a href="#about">Про продукт</a>
+        <a href="#steps">Як це працює</a>
+        <a href="#features">Функції</a>
+        <a href="#showcase">Скриншоти</a>
+        <a href="#business">Для бізнесу</a>
+        <a href="#video">Відео</a>
+        <a href="#roi">Економіка</a>
+        <a href="#contact">Контакти</a>
       </nav>
 
-      <a class="btn btn-primary" href="#contact">  Замовити  </a>
+      <a class="btn btn-primary" href="#contact">Замовити</a>
     </div>
   </header>
 
@@ -433,29 +781,28 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <span class="tag"> Готове рішення </span>
+          <span class="tag">Головна перевага — автоматична адаптація тексту</span>
 
           <h1>
-            Менше витрат.
-            <span class="accent">Менше типографії.</span>
-            Більше швидкості.
+            Ви обираєте розмір етикетки.
+            <span class="accent">Label Print сам адаптує текст.</span>
           </h1>
 
           <p class="lead">
-            Label Print ідеально підходить для друку етикеток, анотацій та описів.
-            Вставте текст із Word, інтернету або перекладача, оберіть потрібний формат —
-            і програма автоматично вмістить текст у етикетку.
+            Label Print — це програма для швидкого створення і друку етикеток, анотацій та описів.
+            Ви вставляєте текст, обираєте формат, а програма автоматично підлаштовує вміст під вибраний розмір етикетки.
+            Без ручного підганяння, зайвих правок і втрати часу.
           </p>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#contact">Замовити зараз</a>
-            <a class="btn btn-secondary" href="#real">Подивитися в роботі</a>
+            <!--<a class="btn btn-primary" href="#contact">Замовити зараз</a>
+            <button class="btn btn-secondary" type="button" data-open-video>Подивитися відео</button>-->
           </div>
 
           <div class="hero-list">
-            <div>✔ Економія грошей на виготовленні етикеток</div>
-            <div>✔ Часткова або повна відмова від послуг типографії</div>
-            <div>✔ Швидкий запуск без довгих погоджень і очікування</div>
+            <div>✔ Програма сама адаптує текст під вибраний формат</div>
+            <div>✔ Можна друкувати від 1 етикетки без очікування</div>
+            <div>✔ Менше витрат на типографію, макети та правки</div>
           </div>
         </div>
 
@@ -465,111 +812,72 @@
       </div>
     </section>
 
-    <section id="value">
+    <section>
       <div class="container">
         <div class="value-box">
-          <strong>Купуєте програму один раз — і отримуєте контроль над друком у себе</strong>
+          <strong>Головна цінність Label Print — програма автоматично адаптує текст під вибраний розмір етикетки</strong>
           <p>
-            Замість постійних витрат на типографію, правки і очікування,
-            ви отримуєте можливість швидко створювати та друкувати етикетки самостійно.
-            Це означає менше витрат, швидше виготовлення і повний контроль над процесом.
+            Вам не потрібно вручну підганяти макет, перевіряти переноси або витрачати час на постійні правки.
+            Це прискорює підготовку до друку, зменшує кількість помилок і робить роботу значно простішою.
           </p>
         </div>
       </div>
     </section>
 
-    <section>
+    <section id="about">
       <div class="container">
-        <h2 class="section-title">Причини, через які цю програму хочуть купити</h2>
+        <h2 class="section-title">Про продукт</h2>
         <p class="section-lead">
-          Тут все просто: вона економить гроші, зменшує залежність від типографії і дозволяє запускати друк тоді, коли це потрібно вам.
+          Label Print — це практичний інструмент для бізнесу, виробництва, складу та торгівлі, де етикетки потрібно готувати швидко, без типографії та без зайвої ручної роботи.
         </p>
 
         <div class="grid-3">
           <div class="feature">
-            <div class="icon">💸</div>
-            <h3>Економія грошей</h3>
-            <p>Менше витрат на типографію, макети, правки, дрібні тиражі та повторні замовлення.</p>
-          </div>
-
-          <div class="feature">
-            <div class="icon">🏷️</div>
-            <h3>Менше залежності від типографії</h3>
-            <p>Для багатьох задач ви можете частково або повністю друкувати етикетки самостійно.</p>
+            <div class="icon">🎯</div>
+            <h3>Для кого</h3>
+            <p>Для компаній, яким регулярно потрібні етикетки, описи, анотації та службове маркування.</p>
           </div>
 
           <div class="feature">
             <div class="icon">⚡</div>
-            <h3>Швидкий запуск</h3>
-            <p>Від вставки тексту до готової етикетки — хвилини, а не дні очікування.</p>
+            <h3>Що вирішує</h3>
+            <p>Прибирає затримки, ручне підганяння тексту, витрати на макети та залежність від типографії.</p>
+          </div>
+
+          <div class="feature">
+            <div class="icon">💎</div>
+            <h3>У чому цінність</h3>
+            <p>Дає швидкість, контроль, простоту в роботі й можливість друкувати саме тоді, коли це потрібно.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="real">
+    <section id="steps">
       <div class="container">
-        <h2 class="section-title">Реальна програма, а не просто ідея</h2>
+        <h2 class="section-title">Як це працює за 3 кроки</h2>
         <p class="section-lead">
-          Нижче — реальні екрани програми. Вони показують головне: продукт вже готовий до роботи і вирішує практичну задачу.
+          Логіка проста: мінімум дій з боку користувача, максимум готовності до друку.
         </p>
 
-        <div class="shots">
-          <div class="shot">
-            <div class="shot-body">
-              <h3>Швидкий старт</h3>
-              <p>Простий інтерфейс, у якому одразу зрозуміло, куди вставляти текст і де друкувати.</p>
-              <img src="screen-1.png" alt="Стартовий екран" />
+        <div class="steps-wrap">
+          <div class="steps-grid">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h3>Вставляєте текст</h3>
+              <p>З Word, браузера, перекладача або іншого джерела — без складної підготовки.</p>
             </div>
-          </div>
 
-          <div class="shot">
-            <div class="shot-body">
-              <h3>Довгий текст у компактній етикетці</h3>
-              <p>Саме тут програма показує головну силу — вміщення великих описів і анотацій.</p>
-              <img src="screen-2.png" alt="Довгий текст в етикетці" />
+            <div class="step">
+              <div class="step-number">2</div>
+              <h3>Обираєте розмір етикетки</h3>
+              <p>Потрібний формат задається за кілька секунд — стандартний або власний.</p>
             </div>
-          </div>
 
-          <div class="shot">
-            <div class="shot-body">
-              <h3>Текст + штрих-код</h3>
-              <p>Комбінований варіант для маркування, описів і службової інформації.</p>
-              <img src="screen-3.png" alt="Етикетка зі штрих-кодом" />
-            </div>
-          </div>
-
-          <div class="shot">
-            <div class="shot-body">
-              <h3>Акуратний фінальний результат</h3>
-              <p>Коли важлива не тільки щільність, а й читабельність, програма теж дає сильний вигляд.</p>
-              <img src="screen-4.png" alt="Акуратний макет етикетки" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="compare">
-          <div class="compare-box bad">
-            <h3>Без Label Print</h3>
-            <div class="list">
-              <div>✖ <span>Потрібно чекати типографію або стороннього виконавця</span></div>
-              <div>✖ <span>Правки і переробки знову коштують грошей</span></div>
-              <div>✖ <span>Дрібні задачі займають непропорційно багато часу</span></div>
-              <div>✖ <span>Ви не можете швидко змінити текст у потрібний момент</span></div>
-            </div>
-          </div>
-
-          <div class="compare-box good">
-            <h3>З Label Print</h3>
-            <div class="list">
-              <div>✔ <span><b>Вставили текст</b> із зручного джерела</span></div>
-              <div>✔ <span><b>Обрали формат</b> за кілька секунд</span></div>
-              <div>✔ <span><b>Програма автоматично все вмістила</b></span></div>
-              <div>✔ <span><b>Одразу надрукували</b> без очікування і зайвих витрат</span></div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <h3>Програма сама адаптує текст</h3>
+              <p>Label Print автоматично підлаштовує вміст під вибраний формат, і макет готовий до друку.</p>
             </div>
           </div>
         </div>
@@ -578,70 +886,291 @@
 
     <section id="features">
       <div class="container">
-        <h2 class="section-title">Що робить Label Print сильним рішенням</h2>
+        <h2 class="section-title">Ключові функції</h2>
         <p class="section-lead">
-          Усе найважливіше вже всередині: швидкість, простота, робота з великим текстом, формати, штрих-коди і попередній перегляд.
+          Усе найважливіше зібрано в одному рішенні: автоматична адаптація тексту, підтримка форматів, штрихкоди і друк на популярному обладнанні.
         </p>
 
         <div class="grid-3">
           <div class="feature">
-            <div class="icon">📝</div>
-            <h3>Етикетки, анотації, описи</h3>
-            <p>Ідеально для випадків, коли потрібно вмістити багато тексту на невеликій площі.</p>
-          </div>
-
-          <div class="feature">
             <div class="icon">🔤</div>
-            <h3>Автоматичне вміщення тексту</h3>
-            <p>Головна функція, яка реально економить час у щоденній роботі.</p>
+            <h3>Автоматична адаптація тексту</h3>
+            <p>Ви просто обираєте потрібний розмір етикетки, а програма сама адаптує текст під вибраний формат.</p>
           </div>
 
           <div class="feature">
             <div class="icon">📏</div>
             <h3>Готові та довільні формати</h3>
-            <p>Можна працювати зі стандартними розмірами або задати свій формат аж до A4.</p>
+            <p>Можна працювати зі стандартними розмірами або задати власний формат — аж до A4.</p>
           </div>
 
           <div class="feature">
-            <div class="icon">🔳</div>
-            <h3>Штрих-коди</h3>
-            <p>Швидке додавання штрих-кодів до текстового макета без окремого складного софту.</p>
+            <div class="icon">📊</div>
+            <h3>Штрихкоди EAN-13</h3>
+            <p>Підтримка EAN-13 з автоматичною генерацією контрольної суми без сторонніх інструментів.</p>
           </div>
 
           <div class="feature">
             <div class="icon">🖨️</div>
-            <h3>Популярні принтери</h3>
-            <p>Zebra, Godex, TSC, а також друк на звичайному принтері A4.</p>
+            <h3>Підтримка термопринтерів</h3>
+            <p>Zebra, Godex, TSC, Xprinter та інші моделі, а також друк на стандартних аркушах A4.</p>
+          </div>
+
+          <div class="feature">
+            <div class="icon">📝</div>
+            <h3>Етикетки, анотації, описи</h3>
+            <p>Підходить для задач, де потрібно розмістити багато тексту на компактній етикетці.</p>
           </div>
 
           <div class="feature">
             <div class="icon">👤</div>
-            <h3>Просто для користувача</h3>
-            <p>Не потрібно довго вчитися — інтерфейс одразу зрозумілий у роботі.</p>
+            <h3>Зрозумілий інтерфейс</h3>
+            <p>Програма швидко освоюється і дозволяє перейти до роботи без довгого навчання.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact">
+    <section id="showcase">
+      <div class="container">
+        <h2 class="section-title">Як продукт виглядає в роботі</h2>
+        <p class="section-lead">
+          Реальні екрани краще за слова показують головне: продукт уже готовий до щоденного використання, а його ключова цінність — швидка підготовка макета без ручного підганяння.
+        </p>
+
+        <div class="showcase-grid">
+          <article class="showcase-card">
+            <div class="showcase-top">
+              <div>
+                <strong>Швидкий старт</strong>
+                <span>Зрозумілий сценарій від тексту до друку</span>
+              </div>
+              <div class="showcase-badge">Готово до роботи</div>
+            </div>
+            <div class="showcase-image-wrap">
+              <div class="showcase-image">
+                <img src="screen-1.png" alt="Стартовий екран Label Print" />
+              </div>
+            </div>
+            <div class="showcase-body">
+              <p>Користувач одразу бачить, де вставити текст, обрати формат і перейти до друку без зайвих дій.</p>
+            </div>
+          </article>
+
+          <article class="showcase-card">
+            <div class="showcase-top">
+              <div>
+                <strong>Великий текст у компактній етикетці</strong>
+                <span>Ключова перевага продукту</span>
+              </div>
+              <div class="showcase-badge">Автоадаптація</div>
+            </div>
+            <div class="showcase-image-wrap">
+              <div class="showcase-image">
+                <img src="screen-2.png" alt="Приклад великого тексту в етикетці" />
+              </div>
+            </div>
+            <div class="showcase-body">
+              <p>Саме тут найкраще видно сильну сторону Label Print — програма автоматично адаптує текст під вибраний формат.</p>
+            </div>
+          </article>
+
+          <article class="showcase-card">
+            <div class="showcase-top">
+              <div>
+                <strong>Текст + штрихкод</strong>
+                <span>Для маркування, описів і службової інформації</span>
+              </div>
+              <div class="showcase-badge">EAN-13</div>
+            </div>
+            <div class="showcase-image-wrap">
+              <div class="showcase-image">
+                <img src="screen-3.png" alt="Етикетка з текстом і штрихкодом" />
+              </div>
+            </div>
+            <div class="showcase-body">
+              <p>Комбінований формат для практичної роботи: текстова інформація та штрихкодування в одному макеті.</p>
+            </div>
+          </article>
+
+          <article class="showcase-card">
+            <div class="showcase-top">
+              <div>
+                <strong>Охайний фінальний результат</strong>
+                <span>Не лише щільно, а й читабельно</span>
+              </div>
+              <div class="showcase-badge">Акуратний вигляд</div>
+            </div>
+            <div class="showcase-image-wrap">
+              <div class="showcase-image">
+                <img src="screen-4.png" alt="Фінальний макет етикетки" />
+              </div>
+            </div>
+            <div class="showcase-body">
+              <p>Програма допомагає зберігати візуальну охайність етикетки навіть тоді, коли інформації багато.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="business">
+      <div class="container">
+        <h2 class="section-title">Для бізнесу та виробництва</h2>
+        <p class="section-lead">
+          <!--Компанії купують не просто редактор, а стабільність, безпеку і контроль над друком всередині бізнесу.-->
+        </p>
+
+        <div class="grid-3">
+          <div class="feature">
+            <div class="icon">🔒</div>
+            <h3>Повна автономність</h3>
+            <p>Програма працює без інтернету. Дані не передаються на сторонні сервери, тому макети залишаються тільки у вас.</p>
+          </div>
+
+          <div class="feature">
+            <div class="icon">💻</div>
+            <h3>Портативність</h3>
+            <p>Не потребує складної інсталяції і може швидко запускатися на будь-якому ПК.</p>
+          </div>
+
+          <div class="feature">
+            <div class="icon">⚙️</div>
+            <h3>Стабільність у роботі</h3>
+            <p>Без залежності від зовнішніх сервісів, інтернету чи сторонніх виконавців.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="b2b-strip">
+          <!--<h3>Сильний аргумент для B2B: ви купуєте не просто програму, а контроль над друком усередині компанії</h3>-->
+          <p>
+            Label Print допомагає швидше реагувати на зміни, друкувати малі тиражі без переплат і не передавати макети назовні.
+            Це особливо важливо для виробництва, складу, логістики та компаній з регулярним оновленням етикеток.
+          </p>
+          <div class="b2b-points">
+            <span>✔ Працює офлайн</span>
+            <span>✔ Не вимагає складного впровадження</span>
+            <span>✔ Підходить для щоденної роботи</span>
+            <span>✔ Дає швидкі правки без зайвих витрат</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="video">
+      <div class="container">
+        <h2 class="section-title">Відео роботи програми</h2>
+        <p class="section-lead">
+          Найкраще цінність Label Print видно в дії: вставили текст, обрали формат, програма автоматично адаптувала його під етикетку — і можна друкувати.
+        </p>
+
+        <div class="video-shell">
+          <div class="video-preview" data-open-video>
+            <img src="screen-1.png" alt="Превью відео Label Print" />
+            <div class="play-button">
+              <span>▶</span>
+            </div>
+          </div>
+          <div class="video-caption">
+           <!-- Натисніть на прев’ю, щоб відкрити демонстрацію у popup-вікні. Для роботи відео покладіть файл <strong>demo.mp4</strong> поруч із HTML-файлом. -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="roi">
+      <div class="container">
+        <h2 class="section-title">Економічна ефективність</h2>
+        <p class="section-lead">
+          Label Print — це не просто витрата на програму, а інвестиція в швидкість, гнучкість і зниження постійних витрат на друк.
+        </p>
+
+        <div class="compare">
+          <div class="compare-box bad">
+            <h3>Типографія</h3>
+            <div class="list">
+              <div>✖ <span>Мінімальне замовлення від 500 штук</span></div>
+              <div>✖ <span>Очікування готового тиражу близько 3 днів</span></div>
+              <div>✖ <span>Окрема оплата за дизайн і макетування</span></div>
+              <div>✖ <span>Кожна правка означає нові витрати і затримки</span></div>
+            </div>
+          </div>
+
+          <div class="compare-box good">
+            <h3>Label Print</h3>
+            <div class="list">
+              <div>✔ <span><b>Друк від 1 штуки</b> саме тоді, коли це потрібно</span></div>
+              <div>✔ <span><b>Обрали розмір етикетки</b> за кілька секунд</span></div>
+              <div>✔ <span><b>Програма сама адаптує текст</b> під вибраний формат</span></div>
+              <div>✔ <span><b>0 грн за макетування</b> і миттєві правки без зайвих витрат</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--<section id="contact">
       <div class="container">
         <div class="cta-box">
-          <h2>Почніть друкувати етикетки самостійно</h2>
+          <h2>Почніть друкувати етикетки швидше, простіше і без залежності від типографії</h2>
           <p>
-            Якщо ви хочете економити гроші, менше залежати від типографії і запускати друк за кілька хвилин,
-            Label Print — це готовий інструмент, який можна купити вже зараз.
+            Якщо вам потрібен інструмент, який економить час, зменшує витрати і автоматично адаптує текст під потрібний розмір етикетки,
+            Label Print стане сильним рішенням для щоденної роботи бізнесу.
           </p>
 
+          <div class="cta-sub">
+            <div class="cta-mini">
+              <strong>Для виробництва</strong>
+              <span>Швидкий друк і оперативні правки без зупинки процесу.</span>
+            </div>
+            <div class="cta-mini">
+              <strong>Для складу та логістики</strong>
+              <span>Етикетки, описи та маркування без зайвого циклу погоджень.</span>
+            </div>
+            <div class="cta-mini">
+              <strong>Для керівника</strong>
+              <span>Менше витрат, менше залежності від підрядників, більше контролю.</span>
+            </div>
+          </div>
+
           <div class="hero-actions">
-            <a class="btn btn-primary" href="https://t.me/Maksim_Krohmal" target="_blank">Написати в Telegram</a>
-			<a class="btn btn-primary" href="tel:+380638939356">Зателефонувати</a>
-            <a class="btn btn-primary" href="mailto:maksimkrohmal697@gmail.com">Написати на пошту</a>			
+            <a class="btn btn-primary" href="https://t.me/Maksim_Krohmal" target="_blank" rel="noopener noreferrer">Обговорити впровадження</a>
+            <a class="btn btn-dark" href="tel:+380638939356">Зателефонувати</a>
+            <a class="btn btn-secondary" href="mailto:maksimkrohmal697@gmail.com">Написати на пошту</a>
           </div>
 
           <div class="contact-row">
             <div class="contact-chip">Telegram: @Maksim_Krohmal</div>
             <div class="contact-chip">Телефон: +38 (063) 893-93-56</div>
-		    <div class="contact-chip">e-mail: maksimkrohmal697@gmail.com</div>
+            <div class="contact-chip">E-mail: maksimkrohmal697@gmail.com</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>-->
+
+ <section id="contact">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Почніть друкувати етикетки швидше, простіше і без типографії</h2>
+          <p>
+            Якщо вам потрібне рішення, яке економить час, зменшує витрати і автоматично адаптує текст під потрібний розмір етикетки, Label Print стане сильним рішенням для щоденної роботи бізнесу.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://t.me/Maksim_Krohmal" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
+            <a class="btn btn-primary" href="tel:+380638939356">Зателефонувати</a>
+            <a class="btn btn-primary" href="mailto:maksimkrohmal697@gmail.com">Написати на пошту</a>
+          </div>
+
+          <div class="contact-row">
+            <div class="contact-chip">Telegram: @Maksim_Krohmal</div>
+            <div class="contact-chip">Телефон: +38 (063) 893-93-56</div>
+            <div class="contact-chip">E-mail: maksimkrohmal697@gmail.com</div>
           </div>
         </div>
       </div>
@@ -651,8 +1180,72 @@
   <footer>
     <div class="container footer-line">
       <div>© Label Print — програма для друку етикеток, анотацій та описів</div>
-      <div>Економія грошей • Відмова від типографії • Швидкий запуск</div>
+      <div>Автоматична адаптація тексту • Швидкість • Контроль • Економія</div>
     </div>
   </footer>
+
+  <div class="modal" id="videoModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-top">
+        <div>
+          <strong>Демонстрація Label Print</strong>
+          <!--<span>Автоматична адаптація тексту під вибраний розмір етикетки</span> -->
+        </div>
+        <button class="modal-close" type="button" id="closeVideoModal" aria-label="Закрити відео">✕</button>
+      </div>
+      <div class="modal-video-wrap">
+        <video class="modal-video" id="modalVideo" controls preload="metadata" poster="screen-1.png">
+          <source src="demo.mp4" type="video/mp4" />
+          Ваш браузер не підтримує відтворення відео.
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const modal = document.getElementById('videoModal');
+      const modalVideo = document.getElementById('modalVideo');
+      const closeBtn = document.getElementById('closeVideoModal');
+      const openButtons = document.querySelectorAll('[data-open-video]');
+
+      function openModal() {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        if (modalVideo) {
+          modalVideo.currentTime = 0;
+          modalVideo.play().catch(() => {});
+        }
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        if (modalVideo) {
+          modalVideo.pause();
+        }
+      }
+
+      openButtons.forEach((button) => {
+        button.addEventListener('click', openModal);
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
